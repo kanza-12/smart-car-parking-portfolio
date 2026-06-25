@@ -168,7 +168,8 @@ Open Arduino IDE and upload the code to ESP32.
 ## Project Website
 
 https://ahmad7123.github.io/smart-car-parking-portfolio.html/
-https://kanza-12/smart-car-parking-portfolio/
+
+https://kanza-12.github.io/smart-car-parking-portfolio/
 
 ---
 
