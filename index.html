@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Car Parking System Portfolio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f4f8fb; color: #102033; line-height: 1.6; }
+    header { background: linear-gradient(135deg, #003b73, #0074b7); color: white; padding: 60px 20px; text-align: center; }
+    header h1 { font-size: 42px; margin-bottom: 10px; }
+    header p { font-size: 18px; }
+    nav { background: #072b4f; padding: 14px; text-align: center; position: sticky; top: 0; z-index: 10; }
+    nav a { color: white; text-decoration: none; margin: 0 12px; font-weight: bold; }
+    section { max-width: 1100px; margin: 30px auto; padding: 30px; background: white; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    h2 { color: #005b96; margin-bottom: 16px; border-left: 6px solid #0074b7; padding-left: 12px; }
+    h3 { color: #003b73; margin-top: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    .card { background: #eef7ff; padding: 18px; border-radius: 12px; border: 1px solid #cbe7ff; }
+    .hero-box { margin-top: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; }
+    .badge { display: inline-block; background: #0074b7; color: white; padding: 6px 12px; border-radius: 20px; margin: 5px; font-size: 14px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 12px; border: 1px solid #d8e6f3; text-align: left; }
+    th { background: #005b96; color: white; }
+    pre { background: #0b1220; color: #d7f7ff; padding: 18px; border-radius: 12px; overflow-x: auto; font-size: 14px; }
+    .status { font-weight: bold; color: #0a8f3c; }
+    footer { text-align: center; padding: 25px; background: #072b4f; color: white; margin-top: 40px; }
+    .logic { background: #fff8e6; border-left: 6px solid #f4b400; padding: 18px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Smart Car Parking System using ESP32 & IoT</h1>
+    <p>IoT-Based Automated Parking Management with OLED Display, Sensors, Servo Gate and MQTT Cloud Monitoring</p>
+    <div class="hero-box">
+      <div><strong>Student:</strong> Muhammad Ahmad Nawaz</div>
+      <div><strong>Registration No:</strong> SP25-ELC-088</div>
+      <div><strong>Semester:</strong> 3rd Semester</div>
+      <div><strong>Department:</strong> Electronics and Computing</div>
+      <div><strong>Supervisor:</strong> Dr. FAIZA</div>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#features">Features</a>
+    <a href="#components">Components</a>
+    <a href="#working">Working</a>
+    <a href="#code">Code</a>
+    <a href="#team">Team</a>
+  </nav>
+
+  <section id="overview">
+    <h2>Project Overview</h2>
+    <p>
+      The Smart Car Parking System using ESP32 & IoT is designed to automate parking management.
+      It detects whether parking slots are occupied or available using ultrasonic sensors. The ESP32
+      processes the data, updates an OLED display, controls an automatic entry gate using a servo motor,
+      and sends parking status to the cloud through MQTT for remote monitoring.
+    </p>
+    <div>
+      <span class="badge">ESP32</span>
+      <span class="badge">IoT</span>
+      <span class="badge">MQTT</span>
+      <span class="badge">OLED Display</span>
+      <span class="badge">Servo Gate</span>
+      <span class="badge">Ultrasonic Sensors</span>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>Key Features</h2>
+    <div class="grid">
+      <div class="card">Real-time parking slot detection</div>
+      <div class="card">OLED display showing total, free slots and status</div>
+      <div class="card">Automatic gate control using servo motor</div>
+      <div class="card">IoT-based monitoring through WiFi and MQTT</div>
+      <div class="card">Status display: AVAILABLE or FULL</div>
+      <div class="card">Cloud/mobile app data updates</div>
+    </div>
+  </section>
+
+  <section id="components">
+    <h2>Hardware and Software Components</h2>
+    <table>
+      <tr><th>Component</th><th>Purpose</th></tr>
+      <tr><td>ESP32 Microcontroller</td><td>Main controller with built-in WiFi</td></tr>
+      <tr><td>Ultrasonic Sensors HC-SR04</td><td>Detect vehicle presence in each slot</td></tr>
+      <tr><td>OLED Display SSD1306</td><td>Shows parking status locally</td></tr>
+      <tr><td>Servo Motor</td><td>Opens and closes the parking gate</td></tr>
+      <tr><td>MQTT Protocol</td><td>Sends parking data to cloud/mobile app</td></tr>
+      <tr><td>Arduino IDE</td><td>Programming environment for ESP32</td></tr>
+    </table>
+  </section>
+
+  <section id="architecture">
+    <h2>System Architecture</h2>
+    <div class="logic">
+      <p><strong>Data Flow:</strong></p>
+      <p>Sensors → ESP32 → OLED Display</p>
+      <p>ESP32 → Servo Motor Gate</p>
+      <p>ESP32 → WiFi → MQTT Cloud → Mobile App</p>
+    </div>
+  </section>
+
+  <section id="working">
+    <h2>Working Principle</h2>
+    <ol>
+      <li>Ultrasonic sensors detect whether vehicles are present in parking slots.</li>
+      <li>ESP32 reads distance values from each sensor.</li>
+      <li>If distance is greater than 10 cm, the slot is considered free.</li>
+      <li>ESP32 calculates available slots.</li>
+      <li>OLED display shows total slots, free slots and parking status.</li>
+      <li>If parking is available, the gate opens automatically.</li>
+      <li>If parking is full, the gate remains closed.</li>
+      <li>ESP32 sends data to MQTT cloud for mobile app monitoring.</li>
+    </ol>
+
+    <h3>System Logic</h3>
+    <div class="logic">
+      <p>If availableSlots == 0 → <strong>Parking FULL</strong> → Gate CLOSED</p>
+      <p>If availableSlots > 0 → <span class="status">Parking AVAILABLE</span> → Gate OPEN</p>
+    </div>
+  </section>
+
+  <section id="connections">
+    <h2>Pin Connections</h2>
+    <table>
+      <tr><th>Device</th><th>ESP32 Pin</th></tr>
+      <tr><td>Slot 1 TRIG</td><td>GPIO 5</td></tr>
+      <tr><td>Slot 1 ECHO</td><td>GPIO 17</td></tr>
+      <tr><td>Slot 2 TRIG</td><td>GPIO 18</td></tr>
+      <tr><td>Slot 2 ECHO</td><td>GPIO 16</td></tr>
+      <tr><td>Slot 3 TRIG</td><td>GPIO 19</td></tr>
+      <tr><td>Slot 3 ECHO</td><td>GPIO 4</td></tr>
+      <tr><td>OLED SDA</td><td>GPIO 21</td></tr>
+      <tr><td>OLED SCL</td><td>GPIO 22</td></tr>
+      <tr><td>Servo Signal</td><td>GPIO 13</td></tr>
+    </table>
+  </section>
+
+  <section id="code">
+    <h2>Complete ESP32 Code</h2>
+    <pre><code>#include &lt;WiFi.h&gt;
+#include &lt;PubSubClient.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;Adafruit_GFX.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+#include &lt;ESP32Servo.h&gt;
+
+const char* ssid = "YOUR_WIFI";
+const char* password = "YOUR_PASS";
+const char* mqtt_server = "broker.hivemq.com";
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+Servo gate;
+int servoPin = 13;
+int trig[3] = {5, 18, 19};
+int echo[3] = {17, 16, 4};
+int totalSlots = 3;
+int availableSlots = 0;
+
+float getDistance(int t, int e) {
+  digitalWrite(t, LOW);
+  delayMicroseconds(2);
+  digitalWrite(t, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(t, LOW);
+  long duration = pulseIn(e, HIGH, 30000);
+  if (duration == 0) return 999;
+  return duration * 0.034 / 2;
+}
+
+void setupWiFi() {
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+  }
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    client.connect("ESP32Parking");
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  for (int i = 0; i &lt; 3; i++) {
+    pinMode(trig[i], OUTPUT);
+    pinMode(echo[i], INPUT);
+  }
+  gate.attach(servoPin);
+  gate.write(0);
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  setupWiFi();
+  client.setServer(mqtt_server, 1883);
+}
+
+void loop() {
+  if (!client.connected()) reconnect();
+  client.loop();
+  availableSlots = 0;
+
+  for (int i = 0; i &lt; 3; i++) {
+    float d = getDistance(trig[i], echo[i]);
+    if (d &gt; 10) {
+      availableSlots++;
+    }
+  }
+
+  if (availableSlots &gt; 0) {
+    gate.write(90);
+  } else {
+    gate.write(0);
+  }
+
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.println("SMART PARKING");
+  display.setCursor(0, 15);
+  display.print("Total: ");
+  display.println(totalSlots);
+  display.setCursor(0, 30);
+  display.print("Free: ");
+  display.println(availableSlots);
+  display.setCursor(0, 45);
+  display.println(availableSlots == 0 ? "Status: FULL" : "Status: AVAILABLE");
+  display.display();
+
+  String data = "{";
+  data += "\"total\":" + String(totalSlots) + ",";
+  data += "\"free\":" + String(availableSlots) + ",";
+  data += "\"status\":\"" + String(availableSlots == 0 ? "FULL" : "AVAILABLE") + "\"";
+  data += "}";
+  client.publish("parking/data", data.c_str());
+  delay(2000);
+}</code></pre>
+  </section>
+
+  <section id="team">
+    <h2>Project Team</h2>
+    <div class="grid">
+      <div class="card"><strong>Muhammad Ahmad Nawaz</strong><br>SP25-ELC-088</div>
+      <div class="card"><strong>Kanza Sohial</strong><br>SP25-ELC-034</div>
+      <div class="card"><strong>Zaid Tabush</strong><br>SP25-ELC-062</div>
+    </div>
+  </section>
+
+  <section id="conclusion">
+    <h2>Conclusion</h2>
+    <p>
+      The Smart Car Parking System using ESP32 & IoT is a practical and efficient solution for modern parking management.
+      It combines sensors, automation, OLED display and IoT communication to provide real-time parking information and automatic gate control.
+    </p>
+  </section>
+
+  <footer>
+    <p>Smart Car Parking System using ESP32 & IoT | Department of Electronics and Computing</p>
+  </footer>
+</body>
+</html>
